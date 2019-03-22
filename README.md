@@ -25,7 +25,7 @@ Click "Create credentials" -> OAuth client id.
 
 A popup should open with the keys.
 
-7. Create a file `./config/keys.js" like below and insert the keys there.
+7. Create a file `./config/keys.js` like below and insert the keys there.
 ```
 module.exports = {
     google: {
@@ -43,7 +43,7 @@ Install Heroku CLI tools
 brew tap heroku/brew && brew install heroku
 ```
 
-Configure credentials and areate a new project
+Configure credentials and create a new project
 ```
 heroku login
 heroku create
@@ -52,7 +52,7 @@ heroku create
 Heroku is now configured.
 
 ## Running locally
-Remember to configure Google OAuth first.
+Remember to [configure Google OAuth](#how-to-configure-google-oauth) first.
 
 ```
 git clone git@github.com:juhawilppu/node-google-oauth.git
@@ -64,16 +64,17 @@ npm start
 The app should now be running on [localhost:5000](http://localhost:5000/).
 
 ## How to deploy
-Create a Heroku project first.
+Remember to [create a Heroku project](#how-to-create-a-heroku-project) first.
 
+Deploy to Heroku by pushing your latest commit to Heroku
 ```
 git push heroku master
 ```
 
-Go to https://limitless-ocean-63000.herokuapp.com/
+Go to https://limitless-ocean-63000.herokuapp.com/ or whatever is your Heroku application URL.
 
 ## Built with
-* NodeJS
-* Express
-* Heroku
-* Google OAuth
+* [NodeJS](https://nodejs.org/en/)
+* [Express](https://expressjs.com/)
+* [Heroku](https://www.heroku.com)
+* [Google OAuth](https://developers.google.com/identity/protocols/OAuth2)
