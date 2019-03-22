@@ -58,7 +58,7 @@ Remember to [configure Google OAuth](#how-to-configure-google-oauth) first.
 git clone git@github.com:juhawilppu/node-google-oauth.git
 cd node-google-oauth
 npm install
-npm start
+npm run dev
 ```
 
 The app should now be running on [localhost:5000](http://localhost:5000/).
