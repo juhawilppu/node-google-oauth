@@ -1,5 +1,5 @@
 // Production keys are defined here
-return {
+module.exports = {
     google: {
         clientId: process.env.GOOGLE_CLIENT_ID,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET
