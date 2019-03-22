@@ -7,7 +7,7 @@ const keys = require('./config/keys');
 
 require('./models/User');
 require('./services/passportConfig');
-mongoose.connect(keys.mongo.URI);
+mongoose.connect(keys.mongo.URL);
 
 app.use(
    cookieSession({
