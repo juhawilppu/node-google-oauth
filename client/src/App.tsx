@@ -24,6 +24,7 @@ const Landing  = () => (
   </React.Fragment>
 )
 import Dashboard from './Dashboard';
+import NewMessage from './NewMessage';
 
 interface Props {
   fetchUser : any;
@@ -41,9 +42,10 @@ class App extends Component<Props> {
           <BrowserRouter>
             <React.Fragment>
               <Header />
-              <div style={{width: '500px', display: 'flex', justifyContent: 'center'}}>
+              <div style={{display: 'flex', justifyContent: 'center'}}>
                 <Route path="/" exact component={Landing} />
-                <Route path="/surveys" exact component={Dashboard} />
+                <Route path="/messages" exact component={Dashboard} />
+                <Route path="/messages/new" exact component={NewMessage} />
               </div>
             </React.Fragment>
           </BrowserRouter>

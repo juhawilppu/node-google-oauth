@@ -33,7 +33,6 @@ module.exports = (app) => {
         requireLogin,
         async (req, res) => {
             const messageId = req.params.messageId;
-            console.log('deleting ' + messageId)
             const r = await Message.deleteOne({ _id: messageId });
             res.send(r);
         }
