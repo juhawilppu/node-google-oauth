@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import { Link } from 'react-router-dom';
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 
 const styles = {
     root: {
@@ -21,6 +21,24 @@ const styles = {
     },
 };
 
+const theme = createMuiTheme({
+    overrides: {
+        MuiButton: {
+            text: {
+                color: 'white'
+            }
+        }
+    },
+    palette: {
+      primary: {
+          main: '#FFFFFF'
+      },
+      secondary: {
+          main: '#81C784'
+      }
+    }
+});
+
 interface Props {
     auth: any;
 }
@@ -32,13 +50,17 @@ class Header extends React.Component<Props> {
                 return '...';
             case false:
                 return (
-                    <Button href="/auth/google" variant="contained" color="secondary">Login with Google</Button>
+                    <MuiThemeProvider theme={theme}>
+                        <Button href="/auth/google" variant="contained" color="secondary">Login with Google</Button>
+                    </MuiThemeProvider>
                 )
             default:
                 return (
                     <React.Fragment>
                         <span style={{marginRight: '20px'}}>{this.props.auth.email}</span>
-                        <Button href="/api/logout">Logout</Button>
+                        <MuiThemeProvider theme={theme}>
+                            <Button color="primary" href="/api/logout">Logout</Button>
+                        </MuiThemeProvider>
                     </React.Fragment>
                 )
         }

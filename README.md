@@ -1,6 +1,6 @@
 # node-google-oauth
 
-Test project for NodeJS using Google OAuth 2.0.
+Test project for NodeJS using Google OAuth 2.0, MongoDB and React. Check it out: https://limitless-ocean-63000.herokuapp.com/ .
 
 ## How to configure Google OAuth
 Got to [https://console.developers.google.com](https://console.developers.google.com) .
@@ -20,8 +20,8 @@ Click "SET UP A CONSENT SCREEN". Write something to "Application name" and click
 6. You should now be in "Credentials" -page again.
 Click "Create credentials" -> OAuth client id.
 "Application type" -> Web application
-"Authorized JavaScript origins" -> http://localhost:5000
-"Authorized redirect URIs" -> http://localhost:5000/
+"Authorized JavaScript origins" -> http://localhost:3000
+"Authorized redirect URIs" -> http://localhost:3000/auth/google/callback
 
 A popup should open with the keys.
 
@@ -74,7 +74,8 @@ git push heroku master
 Go to https://limitless-ocean-63000.herokuapp.com/ or whatever is your Heroku application URL.
 
 ## Built with
-* [NodeJS](https://nodejs.org/en/)
-* [Express](https://expressjs.com/)
-* [Heroku](https://www.heroku.com)
-* [Google OAuth](https://developers.google.com/identity/protocols/OAuth2)
+* [NodeJS](https://nodejs.org/en/), [express](https://expressjs.com/) and [mongoose](https://mongoosejs.com/).
+* [React](https://reactjs.org/), [Redux](https://redux.js.org/) and [TypeScript](https://www.typescriptlang.org/).
+* [Heroku](https://www.heroku.com).
+* [Google OAuth](https://developers.google.com/identity/protocols/OAuth2).
+* [MongoDB Atlas](https://cloud.mongodb.com).

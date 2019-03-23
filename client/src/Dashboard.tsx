@@ -4,6 +4,15 @@ import axios from 'axios';
 import Message from './Message';
 import { Button } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
+import PlusIcon from '@material-ui/icons/Add';
+import SendIcon from '@material-ui/icons/Send';
+import CancelIcon from '@material-ui/icons/Cancel';
+
+const styles = {
+    leftIcon: {
+        marginRight: '10px'
+    }
+}
 
 export interface IMessage {
     _id: string;
@@ -70,6 +79,7 @@ class Dashboard extends React.Component<Props, State> {
             <TextField
                 id="standard-title"
                 label="Title"
+                variant="outlined"
                 value={this.state.title}
                 onChange={event => this.setState({ title: event.target.value })}
                 margin="normal"
@@ -77,13 +87,20 @@ class Dashboard extends React.Component<Props, State> {
             <TextField
                 id="standard-title"
                 label="Content"
+                variant="outlined"
+                multiline
+                rows="4"
                 value={this.state.content}
                 onChange={event => this.setState({ content: event.target.value })}
                 margin="normal"
             />
-            <div>
-                <Button variant="contained" color="primary" onClick={this.sendMessage}>Send</Button>
-                <Button variant="contained" onClick={this.cancelMessage}>Cancel</Button>
+            <div style={{marginTop: '20px'}}>
+                <Button variant="contained" color="primary" style={styles.leftIcon} onClick={this.sendMessage}>
+                    <SendIcon style={styles.leftIcon} /> Send
+                </Button>
+                <Button variant="contained" onClick={this.cancelMessage}>
+                    <CancelIcon style={styles.leftIcon} /> Cancel
+                </Button>
             </div>
         </form>
     )
@@ -107,10 +124,14 @@ class Dashboard extends React.Component<Props, State> {
                 {this.state.writeMessage ?
                     this.renderNewMessage()
                  : 
-                 <Button variant="contained" color="primary" onClick={() => this.setState({writeMessage: true})}>New message</Button>
+                 <Button variant="contained" color="primary" onClick={() => this.setState({writeMessage: true})}>
+                    <PlusIcon style={styles.leftIcon} /> Write a message
+                 </Button>
                 }
-                {this.state.messages.map(message => <Message key={message._id} message={message} deleteMessage={this.deleteMessage} />)}
-                {this.state.messages.length == 0 ? <div>No messages</div> : null}
+                <div style={{marginTop: '50px'}}>
+                    {this.state.messages.map(message => <Message key={message._id} message={message} deleteMessage={this.deleteMessage} />)}
+                    {this.state.messages.length == 0 ? <div>No messages</div> : null}
+                </div>
             </div>
         )
     }
