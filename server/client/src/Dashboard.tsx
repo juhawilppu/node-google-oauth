@@ -5,12 +5,21 @@ import Message from './Message';
 import { Button } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 
+export interface IMessage {
+    _id: string;
+    title: string;
+    content: string;
+    user: any;
+}
+
+interface ListOfMessages extends Array<IMessage>{}
+
 interface Props {
     auth: any;
 }
 interface State {
     loaded: boolean;
-    messages: Array<any>;
+    messages: Array<IMessage>;
     writeMessage: boolean;
     title: string;
     content: string;
@@ -18,7 +27,7 @@ interface State {
 class Dashboard extends React.Component<Props, State> {
     state = {
         loaded: false,
-        messages: [],
+        messages: [] as ListOfMessages,
         writeMessage: false,
         title: '',
         content: ''
@@ -27,7 +36,7 @@ class Dashboard extends React.Component<Props, State> {
     componentDidMount() {
         axios.get('/api/messages')
         .then(response => {
-            this.setState({ loaded: true, messages: response.data });
+            this.setState({ loaded: true, messages: response.data as ListOfMessages });
         });
     }
 
@@ -37,17 +46,18 @@ class Dashboard extends React.Component<Props, State> {
             content: this.state.content
         }
         const response = await axios.post('/api/messages', message) as any;
-        const messages = [...this.state.messages] as any;
-        messages.push(response.data);
+        const m  = response.data as IMessage;
+        const messages = [...this.state.messages] as ListOfMessages;
+        messages.push(m);
         this.setState({
             writeMessage: false,
             title: '',
             content: '',
-            messages
+            messages: messages
         })
     }
 
-    cancelMessage() {
+    cancelMessage = () => {
         this.setState({
             writeMessage: false,
             title: '',
@@ -78,6 +88,13 @@ class Dashboard extends React.Component<Props, State> {
         </form>
     )
 
+    deleteMessage = async (messageId : string) => {
+        const message = this.state.messages.find(m => m._id === messageId) as IMessage;
+        await axios.delete(`/api/messages/${message._id}`);
+        const messages = this.state.messages.filter(m => m._id !== messageId);
+        this.setState({messages});
+    }
+
     render() {
 
         if (!this.state.loaded) {
@@ -90,9 +107,9 @@ class Dashboard extends React.Component<Props, State> {
                 {this.state.writeMessage ?
                     this.renderNewMessage()
                  : 
-                 <Button onClick={() => this.setState({writeMessage: true})}>New message</Button>
+                 <Button variant="contained" color="primary" onClick={() => this.setState({writeMessage: true})}>New message</Button>
                 }
-                {this.state.messages.map(message => <Message message={message} />)}
+                {this.state.messages.map(message => <Message key={message._id} message={message} deleteMessage={this.deleteMessage} />)}
                 {this.state.messages.length == 0 ? <div>No messages</div> : null}
             </div>
         )

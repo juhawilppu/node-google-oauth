@@ -9,7 +9,7 @@ const keys = require('./config/keys');
 require('./models/User');
 require('./models/Message');
 require('./services/passportConfig');
-mongoose.connect(keys.mongo.URL);
+mongoose.connect(keys.mongo.URL, {useNewUrlParser: true});
 
 app.use(
    cookieSession({
