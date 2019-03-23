@@ -79,3 +79,4 @@ Go to https://limitless-ocean-63000.herokuapp.com/ or whatever is your Heroku ap
 * [Heroku](https://www.heroku.com).
 * [Google OAuth](https://developers.google.com/identity/protocols/OAuth2).
 * [MongoDB Atlas](https://cloud.mongodb.com).
+* [SendGrid](https://sendgrid.com/)

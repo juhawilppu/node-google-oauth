@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const Message = mongoose.model('messages');
 const requireLogin = require('../middlewares/requireLogin');
+const Mailer = require('../services/Mailer');
+const template = require('../services/emailTemplates/messageTemplate');
 
 module.exports = (app) => {
     app.get(
@@ -22,8 +24,18 @@ module.exports = (app) => {
                 user: {
                     userId: req.user.id,
                     email: req.user.email
-                }
+                },
+                sent: Date.now()
             }).save();
+
+            const email = {
+                subject: message.title,
+                recipients: [ message.user.email ]
+            }
+
+            const mailer = new Mailer(email, template(message));
+            await mailer.send();
+
             res.send(message);
         }
     );

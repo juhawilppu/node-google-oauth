@@ -7,5 +7,6 @@ module.exports = {
     mongo: {
         URL: process.env.MONGO_URL
     },
-    cookieKey: process.env.COOKIE_KEY
+    cookieKey: process.env.COOKIE_KEY,
+    sendGridKey: process.env.SENDGRID_KEY
 }
