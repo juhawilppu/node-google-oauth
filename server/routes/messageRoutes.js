@@ -1,9 +1,12 @@
 const mongoose = require('mongoose');
 const Message = mongoose.model('messages');
+const requireLogin = require('../middlewares/requireLogin');
 
 module.exports = (app) => {
     app.get(
-        '/api/messages', async (req, res) => {
+        '/api/messages',
+        requireLogin,
+        async (req, res) => {
             const messages = await Message.find();
             res.send(messages);
         }
@@ -11,6 +14,7 @@ module.exports = (app) => {
     
     app.post(
         '/api/messages',
+        requireLogin,
         async (req, res) => {
             const message = await new Message({ 
                 title: req.body.title,
@@ -24,12 +28,15 @@ module.exports = (app) => {
         }
     );
 
-    app.delete('/api/messages/:messageId',
-    async (req, res) => {        
-        const messageId = req.params.messageId;
-        console.log('deleting ' + messageId)
-        const r = await Message.deleteOne({ _id: messageId });
-        res.send(r);
-    }); 
+    app.delete(
+        '/api/messages/:messageId',
+        requireLogin,
+        async (req, res) => {
+            const messageId = req.params.messageId;
+            console.log('deleting ' + messageId)
+            const r = await Message.deleteOne({ _id: messageId });
+            res.send(r);
+        }
+    );
 
 }

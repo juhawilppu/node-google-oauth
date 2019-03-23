@@ -18,8 +18,8 @@ interface Props {
 }
 class App extends Component<Props> {
 
-  componentDidMount() {
-    this.props.fetchUser();
+  componentDidMount = async () => {
+    const response = this.props.fetchUser();
   }
 
   render() {
