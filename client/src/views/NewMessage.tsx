@@ -5,6 +5,8 @@ import { Button } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import SendIcon from '@material-ui/icons/Send';
 import CancelIcon from '@material-ui/icons/Cancel';
+import { reduxForm, Field, InjectedFormProps } from 'redux-form';
+import { IMessage } from './Messages';
 
 const styles = {
     leftIcon: {
@@ -12,8 +14,7 @@ const styles = {
     }
 }
 
-interface Props extends RouteComponentProps {
-
+interface Props extends RouteComponentProps, InjectedFormProps<IMessage> {
 }
 interface State {
     title: string;
@@ -43,7 +44,12 @@ class NewMessage extends React.Component<Props, State> {
             <div style={{width: '500px'}}>
                 <h2>New message</h2>
                 <div style={{marginTop: '50px'}}>
-                    <form noValidate autoComplete="off">
+                    <form onSubmit={this.props.handleSubmit(values => console.log(values))} >
+                        <Field
+                            type="text"
+                            name="Title"
+                            component="input"
+                        />
                         <TextField
                             id="standard-title"
                             label="Title"
@@ -79,4 +85,4 @@ class NewMessage extends React.Component<Props, State> {
     }
 }
 
-export default withRouter(NewMessage);
+export default reduxForm<IMessage>({form: 'new_message'})(NewMessage);
