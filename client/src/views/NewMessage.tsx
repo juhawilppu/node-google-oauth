@@ -51,18 +51,20 @@ class NewMessage extends React.Component<Props, State> {
                             value={this.state.title}
                             onChange={event => this.setState({ title: event.target.value })}
                             margin="normal"
+                            fullWidth
                         /><br />
                         <TextField
                             id="standard-title"
                             label="Content"
                             variant="outlined"
                             multiline
-                            rows="4"
+                            rows="6"
                             value={this.state.content}
                             onChange={event => this.setState({ content: event.target.value })}
                             margin="normal"
+                            fullWidth
                         />
-                        <div style={{marginTop: '20px'}}>
+                        <div style={{marginTop: '20px', display: 'flex', justifyContent: 'flex-end'}}>
                             <Button variant="contained" color="primary" style={styles.leftIcon} onClick={this.sendMessage}>
                                 <SendIcon style={styles.leftIcon} /> Send
                             </Button>

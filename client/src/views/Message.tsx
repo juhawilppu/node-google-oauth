@@ -1,7 +1,8 @@
 import * as React from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { IMessage } from './Dashboard';
+import { IMessage } from './Messages';
+import Moment from 'react-moment';
 
 const style = {
     floating: {
@@ -9,10 +10,11 @@ const style = {
     },
     container: {
         border: '1px solid black',
-        margin: '5px',
         padding: '10px',
         borderRadius: '5px',
-        width: '400px'
+        width: '100%',
+        maxWidth: '500px',
+        marginTop: '10px'
     }
 }
 
@@ -31,9 +33,16 @@ class Message extends React.Component<Props> {
                         <DeleteIcon fontSize="small" />
                     </IconButton>
                 </div>
-                <h3 style={{marginTop: '10px', marginBottom: '10px'}}>{message.title}</h3>
-                <div>{message.content}</div>
-                <div style={{marginTop: '10px', display: 'flex', justifyContent: 'flex-end'}}>{message.user.email}</div>
+                <h3 style={{marginTop: '0px', marginBottom: '0px'}}>{message.title}</h3>
+                <div style={{marginTop: '10px'}}>{message.content}</div>
+                <div style={{marginTop: '25px', display: 'flex', justifyContent: 'space-between', color: 'grey'}}>
+                    <div>
+                        <Moment format="DD-MM-YYYY HH:mm:ss" date={message.sent} />
+                    </div>
+                    <div>
+                        {message.user.email}
+                    </div>
+                </div>
             </div>
         )
     }

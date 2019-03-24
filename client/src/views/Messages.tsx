@@ -5,6 +5,7 @@ import Message from './Message';
 import { Button } from '@material-ui/core';
 import PlusIcon from '@material-ui/icons/Add';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const styles = {
     leftIcon: {
@@ -17,6 +18,7 @@ export interface IMessage {
     title: string;
     content: string;
     user: any;
+    sent: Date;
 }
 
 interface ListOfMessages extends Array<IMessage>{}
@@ -50,13 +52,8 @@ class Dashboard extends React.Component<Props, State> {
 
     render() {
 
-        if (!this.state.loaded) {
-            return <div>...</div>
-        }
-
-        return (
-            <div style={{width: '500px'}}>
-                <h2>Messages</h2>
+        const content = this.state.loaded ? (
+            <React.Fragment>
                 <Button variant="contained" color="primary" onClick={() => this.props.history.push(`/messages/new`)}>
                     <PlusIcon style={styles.leftIcon} /> Write a message
                 </Button>
@@ -64,6 +61,17 @@ class Dashboard extends React.Component<Props, State> {
                     {this.state.messages.map(message => <Message key={message._id} message={message} deleteMessage={this.deleteMessage} />)}
                     {this.state.messages.length == 0 ? <div>No messages</div> : null}
                 </div>
+            </React.Fragment>
+        ) : (
+            <div style={{marginTop: '50px'}}>
+                <CircularProgress />
+            </div>
+        )
+
+        return (
+            <div style={{width: '500px'}}>
+                <h2>Messages</h2>
+                {content}
             </div>
         )
     }
