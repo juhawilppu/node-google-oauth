@@ -42,37 +42,69 @@ app.listen(PORT);
 
 console.log('Server started')
 
-console.log('making call to graphql');
+const getCoordinates = async (address) => {
+    const response = await axios({
+        url: `https://api.digitransit.fi/geocoding/v1/search?text=${encodeURIComponent(address)}&size=1`,
+        method: 'GET'
+    });
+    return response.data.features[0].geometry.coordinates;
+}
 
-//const from = "Adjutantinkatu 3, 02650 ESPOO";
-//const to = "Vaisalantie 6, ESPOO";
+const getItinerary = async (fromCoordinates, toCoordinates) => {
 
-axios({
-    url: 'https://api.digitransit.fi/routing/v1/routers/hsl/index/graphql',
-    method: 'post',
-    data: {
-        query: `{
-            plan(
-              from: {lat: 60.168992, lon: 24.932366}
-              to: {lat: 60.175294, lon: 24.684855}
-              numItineraries: 1
-            ) {
-              itineraries {
-                legs {
-                  duration
-                  distance
-                }
-              }
+    const query = `{
+        plan(
+          from: {lat: ${fromCoordinates[1]}, lon: ${fromCoordinates[0]}}
+          to: {lat: ${toCoordinates[1]}, lon: ${toCoordinates[0]}}
+          date: "2019-03-25"
+          time: "09:00:00"
+          numItineraries: 1
+          transportModes: [{mode: BUS}, {mode: RAIL}, {mode:TRAM}, {mode: FERRY}, {mode: WALK}]
+          walkReluctance: 2
+        ) {
+          itineraries {
+            legs {
+              duration
+              distance
             }
-        }`
-    }
-}).then(response => {
-    console.log(response.data);
+          }
+        }
+    }`;
+
+    const response = await axios({
+        url: 'https://api.digitransit.fi/routing/v1/routers/hsl/index/graphql',
+        method: 'post',
+        data: {
+            query
+        }
+    });
 
     const duration = response.data.data.plan.itineraries[0].legs.map(leg => leg.duration).reduce((a, b) => a+b, 0) / 60;
     const distance = response.data.data.plan.itineraries[0].legs.map(leg => leg.distance).reduce((a, b) => a+b, 0) / 1000;
+    
+    return {
+        duration: duration.toFixed(0),
+        distance: distance.toFixed(1)
+    }    
+}
 
-    console.log(`total duration ${duration.toFixed(0)} min`)
-    console.log(`total distance ${distance.toFixed(1)} km`)
+const get = async (fromAddress, toAddress) => {
+    const fromCoordinates = await getCoordinates(fromAddress);
+    const toCoordinates = await getCoordinates(toAddress);
+    const itinerary = await getItinerary(fromCoordinates, toCoordinates);
+    return itinerary;
+}
 
+
+const test = async () => {
+    const fromAddress = "Adjutantinkatu 3, 02650 ESPOO";
+    const toAddress = "Vaisalantie 6, 02130 ESPOO";
+    
+    return await get(fromAddress, toAddress);
+}
+
+console.log(Date.now())
+test().then(response => {
+    console.log(Date.now());
+    console.log(response);
 });
