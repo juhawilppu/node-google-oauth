@@ -57,9 +57,14 @@ Remember to [configure Google OAuth](#how-to-configure-google-oauth) first.
 ```
 git clone git@github.com:juhawilppu/node-google-oauth.git
 cd node-google-oauth
+cd client
+npm install
+cd ..
 npm install
 npm run dev
 ```
+
+The last command `npm run dev` will start both frontend and backend.
 
 The app should now be running on [localhost:5000](http://localhost:5000/).
 
